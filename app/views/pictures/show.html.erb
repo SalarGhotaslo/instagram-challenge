@@ -10,6 +10,14 @@
   <%= @picture.likes %>
 </p>
 
+<%= link_to like_picture_path(@picture), class: "like-btn", method: :put, remote: :true do %>
+<div>
+<span><p><i class= "fa fa-thumbs-up fa-3x"></i></p></span>
+</div>
+<% end %>
+
+<span class ="likes-count"><%= @picture.get_upvotes.size %></span>
+
 <p>
   <strong>Comments:</strong>
   <%= @picture.comments %>
@@ -19,3 +27,4 @@
 <%= image_tag(@picture.image, style:'width:100%') %>
 <%= link_to 'Edit', edit_picture_path(@picture) %> |
 <%= link_to 'Back', pictures_path %>
+

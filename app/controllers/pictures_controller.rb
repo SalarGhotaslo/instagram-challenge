@@ -1,7 +1,8 @@
 class PicturesController < ApplicationController
-  before_action :set_picture, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_picture, only: [ :show, :edit, :update, :destroy, :like]
+  before_action :authenticate_user!, except: [:index, :show, :new, :like]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  respond_to :js, :json, :html
   # GET /pictures or /pictures.json
   def index
     @pictures = Picture.all
@@ -19,6 +20,15 @@ class PicturesController < ApplicationController
 
   # GET /pictures/1/edit
   def edit
+  end
+
+  def like
+    @picture = Picture.find(params[:id])
+    if params[:format] == 'like'
+      @picture.liked_by current_user
+    elsif params[:format] == 'unlike'
+    @picture.unliked_by current_user
+    end
   end
 
   # POST /pictures or /pictures.json
